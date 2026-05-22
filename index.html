@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kika's Peluquería & Barber — Monterrey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@1,400;1,600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:      #0b1423;
+      --navy-mid:  #101d30;
+      --navy-card: #152338;
+      --rojo:      #c41230;
+      --rojo-h:    #e0162f;
+      --azul:      #1d3a8a;
+      --azul-light:#2a52c0;
+      --blanco:    #f8f4ef;
+      --gris:      rgba(248,244,239,.45);
+      --borde:     rgba(196,18,48,.18);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--navy);
+      color: var(--blanco);
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--navy); }
+    ::-webkit-scrollbar-thumb { background: var(--rojo); border-radius: 3px; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1rem 3rem;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background .4s, box-shadow .4s;
+    }
+    nav.scrolled {
+      background: rgba(11,20,35,.96);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 rgba(196,18,48,.2);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: .55rem; text-decoration: none;
+    }
+    .nav-logo svg { width: 24px; height: 24px; color: var(--rojo); }
+    .nav-logo-text {
+      font-family: 'Oswald', sans-serif; font-weight: 700;
+      font-size: 1.4rem; letter-spacing: .06em; color: var(--blanco);
+    }
+    .nav-logo-text span { color: var(--rojo); }
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; align-items: center; }
+    .nav-links a {
+      color: var(--blanco); text-decoration: none; font-size: .78rem;
+      font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+      opacity: .65; transition: opacity .2s;
+    }
+    .nav-links a:hover { opacity: 1; }
+    .nav-cta {
+      background: var(--rojo) !important; color: #fff !important;
+      padding: .48rem 1.25rem !important; border-radius: 2px;
+      opacity: 1 !important; font-weight: 600 !important;
+      transition: background .2s !important;
+    }
+    .nav-cta:hover { background: var(--rojo-h) !important; }
+
+    /* ── HERO ── */
+    #hero {
+      height: 100vh; position: relative;
+      display: flex; align-items: center;
+      justify-content: center; text-align: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('assets/interior-1.jpg');
+      background-size: cover; background-position: center;
+      transform: scale(1.06);
+      transition: transform 0.1s linear;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(11,20,35,.72) 0%,
+        rgba(11,20,35,.60) 50%,
+        rgba(11,20,35,.88) 100%
+      );
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 860px; padding: 0 2rem; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(196,18,48,.1); border: 1px solid rgba(196,18,48,.3);
+      border-radius: 2px; padding: .38rem 1.1rem;
+      font-size: .7rem; letter-spacing: .18em; text-transform: uppercase;
+      color: #ff6b7a; margin-bottom: 2rem;
+    }
+    .badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--rojo); animation: blink 2.2s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+    .hero-title {
+      font-family: 'Oswald', sans-serif; font-weight: 700;
+      font-size: clamp(4.5rem, 13vw, 10.5rem);
+      line-height: .88; letter-spacing: .02em; color: var(--blanco);
+    }
+    .hero-title .red { color: var(--rojo); display: block; }
+    .hero-title .small {
+      font-size: clamp(1.6rem, 4vw, 3.5rem);
+      font-weight: 400; letter-spacing: .25em;
+      display: block; color: rgba(248,244,239,.55); margin-top: .3em;
+    }
+    .hero-sub {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: clamp(1rem, 2.2vw, 1.35rem);
+      color: rgba(248,244,239,.55); margin: 1.5rem 0 2.8rem; letter-spacing: .02em;
+    }
+    .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .82rem 2rem; font-size: .8rem; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase; text-decoration: none;
+      border-radius: 2px; transition: all .2s;
+    }
+    .btn-red { background: var(--rojo); color: #fff; }
+    .btn-red:hover { background: var(--rojo-h); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(196,18,48,.35); }
+    .btn-outline {
+      border: 1px solid rgba(248,244,239,.2); color: var(--blanco); font-weight: 400;
+    }
+    .btn-outline:hover { border-color: var(--rojo); background: rgba(196,18,48,.08); }
+
+    .hero-scroll {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: .4rem;
+      color: rgba(248,244,239,.25); font-size: .64rem;
+      letter-spacing: .2em; text-transform: uppercase;
+    }
+    .scroll-bar {
+      width: 1px; height: 36px;
+      background: linear-gradient(to bottom, rgba(196,18,48,.6), transparent);
+      animation: grow 2s ease-in-out infinite;
+    }
+    @keyframes grow {
+      0%   { transform: scaleY(0); transform-origin: top; opacity: 1; }
+      50%  { transform: scaleY(1); transform-origin: top; opacity: 1; }
+      100% { transform: scaleY(1); transform-origin: bottom; opacity: 0; }
+    }
+
+    /* ── SECCIONES BASE ── */
+    section { padding: 7rem 0; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+    .tag {
+      font-size: .68rem; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--rojo); margin-bottom: .7rem;
+      display: flex; align-items: center; gap: .7rem;
+    }
+    .tag::after { content: ''; width: 30px; height: 1px; background: var(--rojo); opacity: .4; }
+    .sec-title {
+      font-family: 'Oswald', sans-serif; font-weight: 600;
+      font-size: clamp(2rem, 4.5vw, 3rem); line-height: 1.1; color: var(--blanco);
+    }
+    .sec-title em {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-weight: 400; color: var(--rojo);
+    }
+
+    /* ── DIVIDER barberpole ── */
+    .pole-divider {
+      height: 4px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--rojo) 0px, var(--rojo) 33.3%,
+        #fff 33.3%, #fff 66.6%,
+        var(--azul) 66.6%, var(--azul) 100%
+      );
+      background-size: 90px 4px;
+      opacity: .35;
+    }
+
+    /* ── SOBRE ── */
+    #sobre { background: var(--navy-mid); }
+    .sobre-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .sobre-text p {
+      font-size: 1rem; line-height: 1.9; color: rgba(248,244,239,.68); margin-bottom: 1.3rem;
+    }
+    .sobre-text strong { color: var(--blanco); }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+    .stat {
+      background: rgba(196,18,48,.07); border: 1px solid rgba(196,18,48,.15);
+      border-radius: 4px; padding: 1.8rem; text-align: center;
+      transition: border-color .3s, background .3s;
+    }
+    .stat:hover { border-color: rgba(196,18,48,.35); background: rgba(196,18,48,.12); }
+    .stat-num {
+      font-family: 'Oswald', sans-serif; font-size: 3rem; font-weight: 700;
+      line-height: 1; color: var(--rojo); display: block; margin-bottom: .25rem;
+    }
+    .stat-lbl { font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--gris); }
+
+    /* ── SERVICIOS ── */
+    #servicios { background: var(--navy); }
+    .servicios-head {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem;
+    }
+    .servicios-note { font-size: .76rem; color: rgba(248,244,239,.28); font-style: italic; }
+    .servicios-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      border: 1px solid rgba(196,18,48,.12);
+    }
+    .s-card {
+      padding: 2.4rem; position: relative;
+      border-right: 1px solid rgba(196,18,48,.1);
+      border-bottom: 1px solid rgba(196,18,48,.1);
+      transition: background .3s;
+    }
+    .s-card:nth-child(3n) { border-right: none; }
+    .s-card:nth-last-child(-n+3) { border-bottom: none; }
+    .s-card:hover { background: var(--navy-card); }
+    .s-card.feat { background: var(--navy-card); }
+    .feat-tag {
+      position: absolute; top: 1.4rem; right: 1.4rem;
+      background: var(--rojo); color: #fff;
+      font-size: .58rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; padding: .2rem .65rem; border-radius: 2px;
+    }
+    .s-icon {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: rgba(196,18,48,.1);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.4rem; color: var(--rojo);
+    }
+    .s-icon svg { width: 18px; height: 18px; }
+    .s-name {
+      font-family: 'Oswald', sans-serif; font-size: 1.4rem;
+      font-weight: 600; color: var(--blanco); margin-bottom: .4rem; letter-spacing: .02em;
+    }
+    .s-desc { font-size: .82rem; line-height: 1.65; color: rgba(248,244,239,.42); margin-bottom: 1.4rem; }
+    .s-price { font-family: 'Oswald', sans-serif; font-size: 1.9rem; color: var(--rojo); }
+    .s-price.ph {
+      font-family: 'DM Sans', sans-serif; font-size: .74rem; font-style: italic;
+      color: rgba(196,18,48,.45); border: 1px dashed rgba(196,18,48,.22);
+      padding: .28rem .75rem; display: inline-block; border-radius: 2px;
+    }
+    .s-call {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      background: rgba(196,18,48,.04);
+    }
+    .s-call svg { width: 36px; height: 36px; color: var(--rojo); margin-bottom: 1rem; opacity: .65; }
+    .s-call h4 { font-family: 'Oswald', sans-serif; font-size: 1.15rem; color: var(--blanco); margin-bottom: .3rem; }
+    .s-call p { font-size: .78rem; color: rgba(248,244,239,.32); margin-bottom: 1.4rem; }
+
+    /* ── GALERÍA ── */
+    #galeria { background: var(--navy-mid); }
+    .galeria-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: 260px 260px;
+      gap: 6px; margin-top: 2.5rem;
+    }
+    .g-item { position: relative; overflow: hidden; }
+    .g-item:first-child { grid-row: 1 / 3; }
+    .g-ph {
+      width: 100%; height: 100%; background: var(--navy-card);
+      border: 1px dashed rgba(196,18,48,.15);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: .65rem;
+      color: rgba(196,18,48,.25); font-size: .7rem; letter-spacing: .1em;
+      text-transform: uppercase; text-align: center; padding: 1rem;
+      transition: border-color .3s;
+    }
+    .g-ph:hover { border-color: rgba(196,18,48,.35); }
+    .g-ph svg { width: 26px; height: 26px; }
+    .g-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s; }
+    .g-item:hover img { transform: scale(1.05); }
+    .galeria-note { margin-top: 1.2rem; font-size: .74rem; color: rgba(248,244,239,.2); font-style: italic; text-align: center; }
+
+    /* ── TESTIMONIOS ── */
+    #testimonios { background: var(--navy); }
+    .test-head { text-align: center; margin-bottom: .8rem; }
+    .test-meta { text-align: center; font-size: .82rem; color: rgba(248,244,239,.36); margin-bottom: 3.5rem; }
+    .test-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.3rem; }
+    .t-card {
+      background: var(--navy-card); border: 1px solid rgba(196,18,48,.12);
+      border-radius: 4px; padding: 2rem; position: relative;
+      transition: border-color .3s, transform .3s;
+    }
+    .t-card:hover { border-color: rgba(196,18,48,.3); transform: translateY(-3px); }
+    .t-quote {
+      font-family: 'Playfair Display', serif; font-size: 4.5rem;
+      line-height: .4; color: var(--rojo); opacity: .18;
+      position: absolute; top: 1.4rem; left: 1.6rem; pointer-events: none;
+    }
+    .t-stars { display: flex; gap: 3px; margin-bottom: 1rem; padding-top: .35rem; }
+    .t-stars svg { width: 13px; height: 13px; color: var(--rojo); }
+    .t-text {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: 1.02rem; line-height: 1.75; color: rgba(248,244,239,.8); margin-bottom: 1.4rem;
+    }
+    .t-by { font-size: .7rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: rgba(196,18,48,.6); }
+
+    /* ── CONTACTO ── */
+    #contacto { background: var(--navy-mid); }
+    .contacto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; }
+    .horario-table { width: 100%; border-collapse: collapse; margin-top: 1.6rem; }
+    .horario-table tr { border-bottom: 1px solid rgba(196,18,48,.07); }
+    .horario-table td { padding: .78rem 0; font-size: .9rem; }
+    .horario-table td:first-child { color: rgba(248,244,239,.48); }
+    .horario-table td:last-child { text-align: right; color: var(--blanco); font-weight: 500; }
+    .horario-table .cerrado td:last-child { color: rgba(248,244,239,.22); }
+    .horario-table .hoy td { color: var(--rojo) !important; font-weight: 600; }
+    .c-items { margin-top: 1.5rem; }
+    .c-item {
+      display: flex; align-items: flex-start; gap: .9rem;
+      padding: 1rem 0; border-bottom: 1px solid rgba(196,18,48,.07);
+    }
+    .c-icon {
+      width: 34px; height: 34px; flex-shrink: 0; border-radius: 50%;
+      background: rgba(196,18,48,.08);
+      display: flex; align-items: center; justify-content: center; color: var(--rojo);
+    }
+    .c-icon svg { width: 15px; height: 15px; }
+    .c-lbl { font-size: .64rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(248,244,239,.32); margin-bottom: .2rem; }
+    .c-val { font-size: .9rem; color: var(--blanco); line-height: 1.6; }
+    .c-val a { color: var(--blanco); text-decoration: none; transition: color .2s; }
+    .c-val a:hover { color: var(--rojo); }
+    /* ── MAPA ── */
+    .mapa-wrap {
+      margin-top: 4rem;
+      border: 1px solid rgba(196,18,48,.18);
+      border-radius: 6px; overflow: hidden;
+      position: relative;
+    }
+    .mapa-wrap iframe {
+      display: block; width: 100%; height: 400px; border: none;
+      filter: grayscale(20%) contrast(1.05);
+    }
+    .mapa-label {
+      position: absolute; top: 1rem; left: 1rem;
+      background: rgba(11,20,35,.88); backdrop-filter: blur(8px);
+      border: 1px solid rgba(196,18,48,.25); border-radius: 4px;
+      padding: .55rem 1rem;
+      display: flex; align-items: center; gap: .6rem;
+      font-size: .75rem; font-weight: 500; color: var(--blanco);
+      pointer-events: none;
+    }
+    .mapa-label svg { width: 14px; height: 14px; color: var(--rojo); flex-shrink: 0; }
+
+    .cita-box {
+      margin-top: 2rem; padding: 2.2rem;
+      background: rgba(196,18,48,.07); border: 1px solid rgba(196,18,48,.2);
+      border-radius: 4px; text-align: center;
+    }
+    .cita-box h3 { font-family: 'Oswald', sans-serif; font-size: 1.5rem; color: var(--blanco); margin-bottom: .4rem; font-weight: 600; }
+    .cita-box p { font-size: .8rem; color: var(--gris); margin-bottom: 1.4rem; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--navy); border-top: 1px solid rgba(196,18,48,.12); padding: 2rem 0; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .footer-brand { font-family: 'Oswald', sans-serif; font-size: 1rem; letter-spacing: .08em; color: rgba(248,244,239,.3); }
+    .footer-brand span { color: rgba(196,18,48,.5); }
+    .footer-copy { font-size: .7rem; color: rgba(248,244,239,.18); }
+    .footer-socials { display: flex; gap: .75rem; }
+    .soc {
+      width: 34px; height: 34px; border-radius: 50%;
+      border: 1px solid rgba(196,18,48,.2);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(248,244,239,.4); text-decoration: none; transition: all .2s;
+    }
+    .soc:hover { border-color: var(--rojo); color: var(--rojo); }
+    .soc svg { width: 15px; height: 15px; }
+
+    /* ── REVEAL ── */
+    .reveal, .reveal-l, .reveal-r {
+      opacity: 0; transition: opacity .75s ease, transform .75s ease;
+    }
+    .reveal   { transform: translateY(26px); }
+    .reveal-l { transform: translateX(-34px); }
+    .reveal-r { transform: translateX(34px); }
+    .reveal.on, .reveal-l.on, .reveal-r.on { opacity: 1; transform: none; }
+
+    /* ── HAMBURGER ── */
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer;
+      padding: .4rem; z-index: 110;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--blanco); border-radius: 2px;
+      transition: transform .3s, opacity .3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile drawer */
+    .mobile-menu {
+      display: none; position: fixed;
+      inset: 0; z-index: 105;
+      background: rgba(11,20,35,.97);
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 2.5rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      color: var(--blanco); text-decoration: none;
+      font-family: 'Oswald', sans-serif; font-size: 2rem;
+      font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+      opacity: .75; transition: opacity .2s, color .2s;
+    }
+    .mobile-menu a:hover { opacity: 1; color: var(--rojo); }
+    .mobile-menu .m-cta {
+      background: var(--rojo); color: #fff !important; opacity: 1 !important;
+      padding: .85rem 2.5rem; border-radius: 2px; font-size: 1.1rem;
+      margin-top: .5rem;
+    }
+    .mobile-menu .m-cta:hover { background: var(--rojo-h); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .sobre-grid, .contacto-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .servicios-grid { grid-template-columns: 1fr 1fr; }
+      .galeria-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+      .galeria-grid > .g-item:first-child { grid-row: auto; height: 240px; grid-column: 1 / -1; }
+      .galeria-grid .g-item { height: 200px; }
+      .test-grid { grid-template-columns: 1fr; }
+      .mapa-wrap iframe { height: 300px; }
+    }
+    @media (max-width: 600px) {
+      section { padding: 5rem 0; }
+      .servicios-grid { grid-template-columns: 1fr; }
+      .galeria-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .hero-title { font-size: clamp(3rem, 16vw, 5rem); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
+      <line x1="20" y1="4" x2="8.12" y2="15.88"/>
+      <line x1="14.47" y1="14.48" x2="20" y2="20"/>
+      <line x1="8.12" y1="8.12" x2="12" y2="12"/>
+    </svg>
+    <span class="nav-logo-text">KIKA'<span>S</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#sobre">Nosotros</a></li>
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#testimonios">Opiniones</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+    <li><a href="tel:8111676062" class="nav-cta">Llama ahora</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#sobre"       class="m-link">Nosotros</a>
+  <a href="#servicios"   class="m-link">Servicios</a>
+  <a href="#testimonios" class="m-link">Opiniones</a>
+  <a href="#contacto"    class="m-link">Contacto</a>
+  <a href="tel:8111676062" class="m-cta">Llama ahora</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg" id="hero-bg"></div>
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      Peluquería &amp; Barber · Plaza Vía Puerta de Hierro · Monterrey
+    </div>
+    <h1 class="hero-title">
+      KIKA'S
+      <span class="red">PELUQUERÍA</span>
+      <span class="small">&amp; BARBER</span>
+    </h1>
+    <p class="hero-sub">El corte que buscas, la atención que mereces</p>
+    <div class="hero-btns">
+      <a href="tel:8111676062" class="btn btn-red">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.94-.94a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Pide tu cita
+      </a>
+      <a href="#servicios" class="btn btn-outline">Ver servicios</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-bar"></div>
+    Scroll
+  </div>
+
+</section>
+
+<!-- Barberpole divider -->
+<div class="pole-divider"></div>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="container">
+    <div class="sobre-grid">
+      <div class="reveal-l">
+        <div class="tag">Sobre Nosotros</div>
+        <h2 class="sec-title" style="margin-bottom:1.5rem">La mejor opción para <em>tu cabello y barba</em></h2>
+        <div class="sobre-text">
+          <p>Somos la mejor opción para cortes de cabello de <strong>niños y caballeros</strong> en Monterrey. Con un equipo profesional y dedicado, ofrecemos un servicio completo de barbería y <strong>venta de productos para cabello y barba</strong>.</p>
+          <p>Nos encontramos en <strong>Plaza Vía Puerta de Hierro</strong>, con instalaciones siempre limpias y un ambiente acogedor donde cada visita es una experiencia de calidad.</p>
+        </div>
+      </div>
+      <div class="stats-grid reveal-r">
+        <div class="stat">
+          <span class="stat-num" id="s-rating">0.0</span>
+          <span class="stat-lbl">★ Calificación Google</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num" id="s-reviews">0</span>
+          <span class="stat-lbl">Reseñas Google</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">5</span>
+          <span class="stat-lbl">★ Calificación Facebook</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">6</span>
+          <span class="stat-lbl">Días a la semana</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Barberpole divider -->
+<div class="pole-divider"></div>
+
+<!-- SERVICIOS -->
+<section id="servicios">
+  <div class="container">
+    <div class="servicios-head">
+      <div>
+        <div class="tag">Lo que hacemos</div>
+        <h2 class="sec-title">Nuestros <em>Servicios</em></h2>
+      </div>
+      <p class="servicios-note">Precios próximamente</p>
+    </div>
+    <div class="servicios-grid">
+
+      <div class="s-card reveal" style="transition-delay:0ms">
+        <div class="s-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="7" r="4"/><path d="M3 21v-2a7 7 0 0 1 14 0v2"/></svg>
+        </div>
+        <div class="s-name">Corte Caballero</div>
+        <p class="s-desc">Corte profesional adaptado a tu estilo. Lavado y secado incluidos.</p>
+        <span class="s-price ph">Precio próximamente</span>
+      </div>
+
+      <div class="s-card feat reveal" style="transition-delay:100ms">
+        <span class="feat-tag">Popular</span>
+        <div class="s-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="7" r="4"/><path d="M3 21v-2a7 7 0 0 1 14 0v2"/><path d="M17 11l1.5 1.5L21 9"/></svg>
+        </div>
+        <div class="s-name">Corte Niño</div>
+        <p class="s-desc">Especializado para los más pequeños. Atención paciente y resultado perfecto.</p>
+        <span class="s-price ph">Precio próximamente</span>
+      </div>
+
+      <div class="s-card reveal" style="transition-delay:200ms">
+        <div class="s-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div class="s-name">Arreglo de Barba</div>
+        <p class="s-desc">Perfilado y arreglo con acabado impecable. Navaja y tijera.</p>
+        <span class="s-price ph">Precio próximamente</span>
+      </div>
+
+      <div class="s-card feat reveal" style="transition-delay:300ms">
+        <span class="feat-tag">Combo</span>
+        <div class="s-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
+        </div>
+        <div class="s-name">Corte + Barba</div>
+        <p class="s-desc">El look completo en una sola visita. Corte y arreglo de barba.</p>
+        <span class="s-price ph">Precio próximamente</span>
+      </div>
+
+      <div class="s-card reveal" style="transition-delay:400ms">
+        <div class="s-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </div>
+        <div class="s-name">Productos</div>
+        <p class="s-desc">Productos profesionales para cabello y barba. Lleva a casa el estilo del salón.</p>
+        <span class="s-price ph">Disponibles en tienda</span>
+      </div>
+
+      <div class="s-card s-call reveal" style="transition-delay:500ms">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.94-.94a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <h4>¿Listo para el cambio?</h4>
+        <p>Sin esperas, llama ahora</p>
+        <a href="tel:8111676062" class="btn btn-red" style="font-size:.76rem;padding:.62rem 1.35rem">81 1167 6062</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Barberpole divider -->
+<div class="pole-divider"></div>
+
+<!-- GALERÍA -->
+<section id="galeria">
+  <div class="container">
+    <div class="tag">Galería</div>
+    <h2 class="sec-title">Nuestro <em>Trabajo</em></h2>
+    <div class="galeria-grid">
+      <div class="g-item reveal">
+        <img src="assets/corte-1.jpg" alt="Corte rizado con fade" />
+      </div>
+      <div class="g-item reveal" style="transition-delay:80ms">
+        <img src="assets/corte-2.jpg" alt="Corte clásico con fade" />
+      </div>
+      <div class="g-item reveal" style="transition-delay:160ms">
+        <img src="assets/corte-3.jpg" alt="Corte moderno" />
+      </div>
+      <div class="g-item reveal" style="transition-delay:240ms">
+        <img src="assets/barba.jpg" alt="Tratamiento de barba" />
+      </div>
+      <div class="g-item reveal" style="transition-delay:320ms; grid-column: span 1;">
+        <div class="g-ph" style="background: rgba(196,18,48,.06);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          Más fotos próximamente
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Barberpole divider -->
+<div class="pole-divider"></div>
+
+<!-- TESTIMONIOS -->
+<section id="testimonios">
+  <div class="container">
+    <div class="test-head reveal">
+      <div class="tag" style="justify-content:center">Opiniones</div>
+      <h2 class="sec-title" style="text-align:center">Lo que dicen <em>nuestros clientes</em></h2>
+    </div>
+    <p class="test-meta reveal">4.7 ★ en Google · 26 reseñas · 5/5 en Facebook</p>
+    <div class="test-grid">
+
+      <div class="t-card reveal" style="transition-delay:0ms">
+        <span class="t-quote">"</span>
+        <div class="t-stars">
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="t-text">"Buen lugar, buenas instalaciones y siempre limpio, personal muy amable."</p>
+        <div class="t-by">Cliente Google</div>
+      </div>
+
+      <div class="t-card reveal" style="transition-delay:120ms">
+        <span class="t-quote">"</span>
+        <div class="t-stars">
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="t-text">"Buen costo, buen trato y no se espera mucho aunque no tengas cita."</p>
+        <div class="t-by">Cliente Google</div>
+      </div>
+
+      <div class="t-card reveal" style="transition-delay:240ms">
+        <span class="t-quote">"</span>
+        <div class="t-stars">
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="t-text">"Me atendieron muy bien y rápido."</p>
+        <div class="t-by">Cliente Google</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Barberpole divider -->
+<div class="pole-divider"></div>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div class="container">
+    <div class="contacto-grid">
+
+      <div class="reveal-l">
+        <div class="tag">Horario</div>
+        <h2 class="sec-title">Estamos <em>aquí para ti</em></h2>
+        <table class="horario-table">
+          <tr id="r-lun"><td>Lunes</td><td>11:00 AM – 8:00 PM</td></tr>
+          <tr id="r-mar"><td>Martes</td><td>11:00 AM – 8:00 PM</td></tr>
+          <tr id="r-mie"><td>Miércoles</td><td>11:00 AM – 8:00 PM</td></tr>
+          <tr id="r-jue"><td>Jueves</td><td>11:00 AM – 8:00 PM</td></tr>
+          <tr id="r-vie"><td>Viernes</td><td>11:00 AM – 8:00 PM</td></tr>
+          <tr id="r-sab"><td>Sábado</td><td>9:00 AM – 9:00 PM</td></tr>
+          <tr id="r-dom" class="cerrado"><td>Domingo</td><td>Cerrado</td></tr>
+        </table>
+      </div>
+
+      <div class="reveal-r">
+        <div class="tag">Contacto</div>
+        <h2 class="sec-title">Encuéntranos en <em>Monterrey</em></h2>
+        <div class="c-items">
+          <div class="c-item">
+            <div class="c-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <div class="c-lbl">Dirección</div>
+              <div class="c-val">Plaza Vía Puerta de Hierro<br>Av. Puerta de Hierro 9002<br>64346 Monterrey, N.L.</div>
+            </div>
+          </div>
+          <div class="c-item">
+            <div class="c-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.94-.94a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div>
+              <div class="c-lbl">Teléfono</div>
+              <div class="c-val"><a href="tel:8111676062">81 1167 6062</a></div>
+            </div>
+          </div>
+          <div class="c-item">
+            <div class="c-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </div>
+            <div>
+              <div class="c-lbl">Redes Sociales</div>
+              <div class="c-val">
+                <a href="https://www.facebook.com/people/Kikas-Peluqueria-Barber/100083155547700/" target="_blank" rel="noopener">Facebook</a>
+                &nbsp;·&nbsp;
+                <a href="https://www.tiktok.com/@kikas.peluqueria" target="_blank" rel="noopener">TikTok</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="cita-box">
+          <h3>¿Listo para tu corte?</h3>
+          <p>Llámanos y pregunta por disponibilidad</p>
+          <a href="tel:8111676062" class="btn btn-red">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.94-.94a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            81 1167 6062
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Mapa interactivo -->
+    <div class="mapa-wrap reveal">
+      <iframe
+        src="https://maps.google.com/maps?q=Kika%27s+Peluqueria+%26+Barber+Plaza+Via+Puerta+de+Hierro+Monterrey+Mexico&output=embed&z=16"
+        allowfullscreen
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Ubicación Kika's Peluquería & Barber">
+      </iframe>
+      <div class="mapa-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Plaza Vía Puerta de Hierro · Monterrey, N.L.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">KIKA'<span>S</span> PELUQUERÍA &amp; BARBER</div>
+      <div class="footer-copy">© 2026 Kika's Peluquería &amp; Barber · Monterrey, N.L.</div>
+      <div class="footer-socials">
+        <a href="https://www.facebook.com/people/Kikas-Peluqueria-Barber/100083155547700/" target="_blank" rel="noopener" class="soc" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a href="https://www.tiktok.com/@kikas.peluqueria" target="_blank" rel="noopener" class="soc" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.75a8.16 8.16 0 0 0 4.77 1.52V6.82a4.85 4.85 0 0 1-1-.13z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Hamburger menu
+  const hamburger  = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+  document.querySelectorAll('.m-link, .m-cta').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  // Highlight today
+  const days = ['r-dom','r-lun','r-mar','r-mie','r-jue','r-vie','r-sab'];
+  const todayRow = document.getElementById(days[new Date().getDay()]);
+  if (todayRow) todayRow.classList.add('hoy');
+
+  // Reveal animations
+  const revEls = document.querySelectorAll('.reveal, .reveal-l, .reveal-r');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  revEls.forEach(el => io.observe(el));
+
+  // Counter animation
+  function counter(el, target, dec, dur) {
+    const t0 = performance.now();
+    (function tick(now) {
+      const p = Math.min((now - t0) / dur, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = (target * ease).toFixed(dec);
+      if (p < 1) requestAnimationFrame(tick);
+    })(performance.now());
+  }
+
+  let counted = false;
+  new IntersectionObserver(([e]) => {
+    if (e.isIntersecting && !counted) {
+      counted = true;
+      counter(document.getElementById('s-rating'), 4.7, 1, 1600);
+      counter(document.getElementById('s-reviews'), 26, 0, 1600);
+    }
+  }, { threshold: 0.4 }).observe(document.querySelector('.stats-grid'));
+
+  // Parallax on hero photo
+  const heroBg = document.getElementById('hero-bg');
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y < window.innerHeight) {
+      heroBg.style.transform = `scale(1.06) translateY(${y * 0.18}px)`;
+    }
+  }, { passive: true });
+</script>
+
+</body>
+</html>
